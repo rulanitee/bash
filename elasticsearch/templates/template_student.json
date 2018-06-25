@@ -1,0 +1,59 @@
+{
+	"template": "student_*",
+	"settings": {
+		"number_of_shards": 5,
+		"number_of_replicas": 0,
+		"index": {
+			"analysis": {
+				"analyzer": {
+					"folding": {
+						"tokenizer": "standard",
+						"filter": ["lowercase", "asciifolding"]
+					}
+				},
+				"normalizer": {
+					"lowerasciinormalizer": {
+						"type": "custom",
+						"filter": ["lowercase", "asciifolding"]
+					}
+				}
+			}
+		}
+	},
+	"mappings": {
+		"student": {
+			"properties": {
+				"StudentId": {
+					"type": "long"
+				},
+				"Name": {
+					"type": "keyword",
+					"normalizer": "lowerasciinormalizer",
+					"index": "not_analyzed"
+				},
+				"Surname": {
+					"type": "keyword",
+					"normalizer": "lowerasciinormalizer",
+					"index": "not_analyzed"
+				},				
+				"DateOfBirth": {
+					"type": "date",
+					"format": "dateOptionalTime"
+				},				
+				"DateOfEnrollment": {
+					"type": "date",
+					"format": "dateOptionalTime"
+				},
+				"Subjects":{
+					"type": "nested",
+					"properties":{
+						"Name":{
+							"type":"keyword",
+							"normalizer": "lowerasciinormalizer"
+						}
+					}
+				}
+			}
+		}
+	}
+}
