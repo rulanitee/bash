@@ -37,14 +37,14 @@ json_repository=$( jq  -n \
                         --arg repo "$project_name" \
                         '{
                             name:$repo, 
-                            private:true
+                            private:false
                          }' )
 
 # create the repository using the github api
 response=$( curl -H "Authorization: token $token" -H "Accept: application/json" -X POST https://api.github.com/user/repos -d "$json_repository" )
 message=$( echo $response | jq -r '.["message"]' )
 
-if [ ! -z "$message" ]; then
+if [[ ! -z "$message" && "$message" != "null" ]]; then
     die "Error creating repository $project_name: $message"
 fi
 
